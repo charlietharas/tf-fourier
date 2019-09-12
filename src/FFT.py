@@ -8,35 +8,43 @@ from playsound import playsound
 from scipy.fftpack import fft
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
-import numpy as np
 import os
-import time
+from scipy.signal.signaltools import detrend
+from numpy.lib.function_base import average
 
-# initial fft algorithm
-rate, data = wavfile.read("C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/allthistime_20ms.wav")
-print("Wave file load successful.")
-fft_out = fft(data)
-print("FFT conversion successful. Preparing to plot.")
-
-# initial plotting
-# plt.plot(data, np.abs(fft_out))
-# plt.show()
 print("Plotting successful.")
 
-# so the sound goes along
-# playsound('allthistime.mp3')
+def loadFFTGraph(filepath, ):
+    rate, data = wavfile.read("C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/allthistime_20ms.wav")
+    fft_out = fft(data)
+    # TODO (see visualize())
 
-# going through fft in cut directory
-for file in os.listdir("C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/cut/"):
-    filename = os.fsdecode(file)
-    print("Check " + filename)
-    if filename[len(filename)-3:len(filename)] == "wav":
-        readfilepath = "C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/cut/" + filename
-        rate, data = wavfile.read(readfilepath)
-        fft_out = fft(data)
-        plt.plot(data, np.abs(fft_out))
-        plt.show(block=False)
-        plt.pause(0.01)
-        plt.clf()
+
+def playaudio(audiostring):
+    playsound(audiostring)
+
+
+def visualize():
+    # going through fft in cut directory
+    for file in os.listdir("C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/cut/"):
+        filename = os.fsdecode(file)
+        print("Check " + filename)
+        if filename[len(filename)-3:len(filename)] == "wav":
+            readfilepath = "C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/cut/" + filename
+            rate, data = wavfile.read(readfilepath)
+            data = detrend(data, 0)
+            fft_out = fft(data)
+            
+            # skip plotting if data contains nothing
+            if average(data) != 0:
+                plt.plot(fft_out)
+                plt.show(block=False)
+                plt.xlabel("Frequency (Hz)")
+                plt.xlim(500, 1500)
+                plt.pause(1)
+                plt.clf()
+            
+    plt.show()
     
-plt.show()
+
+visualize()
