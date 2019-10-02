@@ -14,8 +14,9 @@ from numpy.lib.function_base import average
 
 print("Plotting successful.")
 
+# Note that filepaths vary off of OS & Location (see filepath list doc)
 def loadFFTGraph(filepath, ):
-    rate, data = wavfile.read("C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/allthistime_20ms.wav")
+    rate, data = wavfile.read("/home/charlie-t/eclipse-ml/fourier/res/cut/allthistime_20ms.wav")
     fft_out = fft(data)
     # TODO (see visualize())
 
@@ -26,11 +27,11 @@ def playaudio(audiostring):
 
 def visualize():
     # going through fft in cut directory
-    for file in os.listdir("C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/cut/"):
+    for file in os.listdir("/home/charlie-t/eclipse-ml/fourier/res/cut/"):
         filename = os.fsdecode(file)
         print("Check " + filename)
         if filename[len(filename)-3:len(filename)] == "wav":
-            readfilepath = "C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/cut/" + filename
+            readfilepath = "/home/charlie-t/eclipse-ml/fourier/res/cut/" + filename
             rate, data = wavfile.read(readfilepath)
             data = detrend(data, 0)
             fft_out = fft(data)

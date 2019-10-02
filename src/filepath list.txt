@@ -1,0 +1,3 @@
+Filepaths:
+	Windows@Alienware: C:/Users/charl_itcmbk/eclipse-workspace-python/Fourier/res/
+	Linux@Mac: /home/charlie-t/eclipse-ml/fourier/res/
