@@ -16,7 +16,7 @@ print("Plotting successful.")
 
 # Note that filepaths vary off of OS & Location (see filepath list doc)
 def loadFFTGraph(filepath, ):
-    rate, data = wavfile.read("/home/charlie-t/eclipse-ml/fourier/res/cut/allthistime_20ms.wav")
+    rate, data = wavfile.read("D:/Coding/GitHub/fourier/res/allthistime_20ms.wav")
     fft_out = fft(data)
     # TODO (see visualize())
 
@@ -27,11 +27,11 @@ def playaudio(audiostring):
 
 def visualize():
     # going through fft in cut directory
-    for file in os.listdir("/home/charlie-t/eclipse-ml/fourier/res/cut/"):
+    for file in os.listdir("D:/Coding/GitHub/fourier/res/cut/"):
         filename = os.fsdecode(file)
         print("Check " + filename)
         if filename[len(filename)-3:len(filename)] == "wav":
-            readfilepath = "/home/charlie-t/eclipse-ml/fourier/res/cut/" + filename
+            readfilepath = "D:/Coding/GitHub/fourier/res/cut/" + filename
             rate, data = wavfile.read(readfilepath)
             data = detrend(data, 0)
             fft_out = fft(data)
