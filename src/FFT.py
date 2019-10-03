@@ -12,8 +12,6 @@ import os
 from scipy.signal.signaltools import detrend
 from numpy.lib.function_base import average
 
-print("Plotting successful.")
-
 # Note that filepaths vary off of OS & Location (see filepath list doc)
 def loadFFTGraph(filepath, ):
     rate, data = wavfile.read("D:/Coding/GitHub/fourier/res/allthistime_20ms.wav")
@@ -38,7 +36,7 @@ def visualize():
             
             # skip plotting if data contains nothing
             if average(data) != 0:
-                plt.plot(fft_out)
+                plt.plot(numpy.real(fft_out))
                 plt.show(block=False)
                 plt.xlabel("Frequency (Hz)")
                 plt.xlim(500, 1500)
