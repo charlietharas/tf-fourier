@@ -27,4 +27,4 @@ def loadFFTGraph(filepath):
     plt.show()
     
 
-loadFFTGraph("D:/Coding/GitHub/fourier/res/allthistime_20ms.wav")
+loadFFTGraph("/home/charlie-t/eclipse-ml/fourier/res/")
