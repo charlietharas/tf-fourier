@@ -28,5 +28,3 @@ def loadFFTGraph(filepath):
     
 
 loadFFTGraph("D:/Coding/GitHub/fourier/res/allthistime_20ms.wav")
-
-# COMPARE YIELDS THAT FFT AND ORGIINAL DATA MATCH PERFECTLY
