@@ -6,7 +6,10 @@ Using FFT algorithm to show frequency/amplitude distribution of wav files in a m
 - visualization of shorter files
 - seamless continuous visualization (stream reading?)
 
-## v0.2 10/2/19
+## v0.2.1 10/4/19
+Update so that all systems now use the same filepath string relative to the current directory. Not major code update but of great help for efficiency.
+
+## v0.2 10/3/19
 FFT application now works on visualization of clipped .wav files, but fails to work on /cut folder.
 Proper unlabeled visualization is good (axis is long but can be easily fixed).
 
