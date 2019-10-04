@@ -1,6 +1,5 @@
 '''
 Created on Sep 12, 2019
-
 @author: charlie_tharas
 '''
 
@@ -12,11 +11,11 @@ from numpy.core._multiarray_umath import arange
 
 def visualize():
     # going through fft in cut directory
-    for file in os.listdir("D:/Coding/GitHub/fourier/res/cut/"):
+    for file in os.listdir("../res/cut/"):
         filename = os.fsdecode(file)
         print("Check " + filename)
         if filename[len(filename)-3:len(filename)] == "wav":
-            readfilepath = "D:/Coding/GitHub/fourier/res/cut/" + filename
+            readfilepath = "../res/cut/" + filename
             loadFFTGraph(readfilepath)
             
     plt.show()
@@ -39,5 +38,5 @@ def loadFFTGraph(filepath):
     plt.show(block=False) # disable for constant visualization
     plt.pause(1)
     
-loadFFTGraph("D:/Coding/GitHub/fourier/res/allthistime_20ms.wav")
+loadFFTGraph("../res/allthistime_20ms.wav")
 visualize()
