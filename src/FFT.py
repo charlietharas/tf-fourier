@@ -38,4 +38,5 @@ def loadFFTGraph(filepath):
     plt.show(block=False) # disable for constant visualization
     plt.pause(1)
     
+loadFFTGraph("../res/allthistime_20ms.wav")
 visualize()
