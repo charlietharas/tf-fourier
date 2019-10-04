@@ -11,11 +11,11 @@ from numpy.core._multiarray_umath import arange
 
 def visualize():
     # going through fft in cut directory
-    for file in os.listdir("/home/charlie-t/eclipse-ml/fourier/res/cut/"):
+    for file in os.listdir("../res/cut/"):
         filename = os.fsdecode(file)
         print("Check " + filename)
         if filename[len(filename)-3:len(filename)] == "wav":
-            readfilepath = "/home/charlie-t/eclipse-ml/fourier/res/cut/" + filename
+            readfilepath = "../res/cut/" + filename
             loadFFTGraph(readfilepath)
             
     plt.show()
@@ -38,5 +38,5 @@ def loadFFTGraph(filepath):
     plt.show(block=False) # disable for constant visualization
     plt.pause(1)
     
-loadFFTGraph("/home/charlie-t/eclipse-ml/fourier/res/allthistime_20ms.wav")
+loadFFTGraph("../res/allthistime_20ms.wav")
 visualize()
