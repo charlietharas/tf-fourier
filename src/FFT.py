@@ -39,6 +39,5 @@ def loadFFTGraph(filepath):
     plt.show(block=False) # disable for constant visualization
     plt.pause(1)
     
+loadFFTGraph("D:/Coding/GitHub/fourier/res/allthistime_20ms.wav")
 visualize()
-
-# COMPARE YIELDS THAT FFT AND ORGIINAL DATA MATCH PERFECTLY
