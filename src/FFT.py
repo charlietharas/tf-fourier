@@ -47,5 +47,5 @@ def visualize():
             
     plt.show()
     
-
+loadFFTGraph("D:/Coding/GitHub/fourier/res/allthistime_20ms.wav")
 visualize()
