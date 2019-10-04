@@ -1,10 +1,14 @@
 # tf-fourier
 Using FFT algorithm to show frequency/amplitude distribution of wav files in a music-visualizer fashion.
 
-## plans for v0.3
-- proper log system for console
-- visualization of shorter files
-- seamless continuous visualization (stream reading?)
+## plans for v0.4
+- proper log system
+- data manipulation for improved visualization
+
+## v0.3 10/4/19 - MAJOR UPDATE
+- stream reading: reads chunk of file placed in folder
+- visibly real-time visualizes audio files on matplotlib
+- significantly improved code structure
 
 ## v0.2.1 10/4/19
 Update so that all systems now use the same filepath string relative to the current directory. Not major code update but of great help for efficiency.
