@@ -26,5 +26,3 @@ def loadFFTGraph(filepath):
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
     plt.show()
     
-
-loadFFTGraph("../res/allthistime_20ms.wav")
