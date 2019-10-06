@@ -26,5 +26,6 @@ def loadFFTGraph(filepath):
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
     plt.show()
     
-
+# DEPRECATED: THESE FILES NO LONGER EXIST
+# THIS IS AN EXAMPLE CLASS SO IT DOESN'T REALLY MATTER
 loadFFTGraph("../res/allthistime_20ms.wav")
