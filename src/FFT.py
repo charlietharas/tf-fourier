@@ -8,20 +8,20 @@ import matplotlib.pyplot as plt
 from scipy.fftpack import fft
 from scipy.io import wavfile
 from numpy.core._multiarray_umath import arange
+from pydub import AudioSegment
+import librosa
 
 def visualize():
-    # going through fft in cut directory
-    for file in os.listdir("../res/cut/"):
-        filename = os.fsdecode(file)
-        print("Check " + filename)
-        if filename[len(filename)-3:len(filename)] == "wav":
-            readfilepath = "../res/cut/" + filename
-            loadFFTGraph(readfilepath)
-            
-    plt.show()
-
-# Note that filepaths vary off of OS & Location (see filepath list doc)
-def loadFFTGraph(filepath):
+    activeFile = AudioSegment.from_wav("../res/active/active.wav") # load active file
+    activeFileLength = librosa.get_duration(filename="../res/active/active.wav") # get duration
+    for i in range(0, int(activeFileLength*1000)): # iterates over the duration of the file in ms
+        activeFileCut = activeFile[i:i+10] # segments the file into next section: (Xms ahead)
+        activeFileCut.export("../res/active/active-cut.wav", format="wav") # exports new file 
+        loadFFTGraph("../res/active/active-cut.wav", False, 0.01) # reads exported file and plots every 10 milliseconds
+        i+= 10 # reads 10ms chunks
+    
+# Single File Display
+def loadFFTGraph(filepath, blockValue, waitTime):
     rate, data = wavfile.read(filepath)
     
     channel = data.T[0] # grab 1st channel
@@ -32,11 +32,14 @@ def loadFFTGraph(filepath):
     
     a = arange(len(data))
     b = len(data)/rate
-    frqLabel = a/b # unknown application
+    frqLabel = a/b # unknown application-- currently unused
     
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
-    plt.show(block=False) # disable for constant visualization
-    plt.pause(1)
+    plt.xlim(0, 100) # XLIM and YLIM can be changed to better view/visualize/interpret data
+    #plt.ylim(0, 6000)
+    plt.show(blockValue) # disable for constant visualization
+    plt.pause(waitTime) # ms time to plot
+    plt.clf()
     
-loadFFTGraph("../res/allthistime_20ms.wav")
+
 visualize()
