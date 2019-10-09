@@ -22,24 +22,32 @@ def visualize():
     
 # Single File Display
 def loadFFTGraph(filepath, blockValue, waitTime):
+    
     rate, data = wavfile.read(filepath)
     
-    channel = data.T[0] # grab (2nd) channel
+    channel = data.T[0] # grab 1st channel
     normalize = [(i/2**8.)*2-1 for i in channel] # normalize track
     fft_data = fft(normalize) # perform fourier transform
     fft_out = len(fft_data)/2 # half of fft (signal symmetry)
     fft_out = int(fft_out) # normalize integer function for plot
+    
+    channel2 = data.T[1] # grab 1st channel
+    normalize2 = [(i/2**8.)*2-1 for i in channel2] # normalize track
+    fft_data2 = fft(normalize2) # perform fourier transform
+    fft_out2 = len(fft_data)/2 # half of fft (signal symmetry)
+    fft_out2 = int(fft_out2) # normalize integer function for plot
     
     a = arange(len(data))
     b = len(data)/rate
     frqLabel = a/b # unknown application-- currently unused
     
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
+    plt.plot(abs(fft_data2[:(fft_out2-1)]),'r')
+
     plt.xlim(0, 100) # XLIM and YLIM can be changed to better view/visualize/interpret data
     #plt.ylim(0, 6000)
     plt.show(blockValue) # disable for constant visualization
     plt.pause(waitTime) # ms time to plot
     plt.clf()
     
-
 visualize()
