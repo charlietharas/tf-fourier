@@ -3,7 +3,11 @@ Using FFT algorithm to show frequency/amplitude distribution of wav files in a m
 
 ## plans for v0.4
 - proper log system
-- data manipulation for improved visualization
+- 3D graphing (just add lists to bigger list & then create beta compare function)
+- improved visualization?
+
+## v0.3.1 10/9/19
+Channel in FFT switched and FFT_PlotCompare created to visualize the difference between different channels. This improves visualization greatly!
 
 ## v0.3 10/4/19 - MAJOR UPDATE
 - stream reading: reads chunk of file placed in folder
