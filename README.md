@@ -5,6 +5,7 @@ Using FFT algorithm to show frequency/amplitude distribution of wav files in a m
 - proper log system for console
 - visualization of shorter files
 - seamless continuous visualization (stream reading?)
+- visualization of overall files using matplotlib's contour functions
 
 ## v0.2.1 10/4/19
 Update so that all systems now use the same filepath string relative to the current directory. Not major code update but of great help for efficiency.
