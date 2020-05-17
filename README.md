@@ -1,6 +1,11 @@
 # tf-fourier
 Using FFT algorithm to show frequency/amplitude distribution of wav files in a music-visualizer fashion.
 
+## language reroll
+Update to use Octave Matlab, versioning logs ditched, will be updating on full functional release.
+
+Disregard below.
+
 ## plans for v0.3
 - proper log system for console
 - visualization of shorter files
