@@ -27,4 +27,4 @@ def loadFFTGraph(filepath):
     plt.show()
     
 
-loadFFTGraph("../res/allthistime_20ms.wav")
+loadFFTGraph("../res/allthistime_1s.wav")

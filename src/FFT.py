@@ -35,8 +35,8 @@ def loadFFTGraph(filepath):
     frqLabel = a/b # unknown application
     
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
-    plt.show(block=False) # disable for constant visualization
-    plt.pause(1)
+    plt.show(block=True) # disable for constant visualization
+    plt.pause(0.05)
     
-loadFFTGraph("../res/allthistime_20ms.wav")
+loadFFTGraph("../res/allthistime_1s.wav")
 visualize()
