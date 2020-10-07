@@ -34,9 +34,10 @@ def loadFFTGraph(filepath):
     b = len(data)/rate
     frqLabel = a/b # unknown application
     
+    plt.clf() # facilitates animation
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
-    plt.show(block=True) # disable for constant visualization
-    plt.pause(0.05)
+    plt.show(block=False) # disable for constant visualization
+    plt.pause(0.05) # not advisory to adjust interval from 0.05
     
-loadFFTGraph("../res/allthistime_1s.wav")
+#loadFFTGraph("../res/allthistime_1s.wav")
 visualize()
