@@ -14,8 +14,10 @@ for step=1:audioinfo(fileName).TotalSamples
     step
 endfor;
 
-#[data, fs] = audioread(fileName);
-#data_fft = fftshift(data);
-#plot(abs(data_fft(:,1)));
+"hello"
 
-clf()
+[data, fs] = audioread(fileName);
+data_fft = fftshift(data);
+plot(abs(data_fft(:,1)));
+
+#clf()
