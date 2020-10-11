@@ -11,15 +11,19 @@ from scipy.io import wavfile
 from numpy.core._multiarray_umath import arange
 import numpy as np
 
+# performs simple FFT
+# fix normalization? this normalizes for 8-bit files..
 def getFFT(rate, data):
     channel = data.T[0]
     normalize = [(i/2**8.)*2-1 for i in channel]
     return fft(normalize)
 
+# returns slice_interval (in s) cut of data
 def getCut(data, rate, pos, slice_interval=0.02):
         # print(pos, np.size(data[int(pos*slice_interval*rate):int((pos+1)*slice_interval*rate)])) # debug
         return data[int(pos*slice_interval*rate):int((pos+1)*slice_interval*rate)]
-            
+
+# static fft graph of file            
 def loadFFTGraph(filepath):
     rate, data = wavfile.read(filepath)
     
@@ -39,6 +43,7 @@ def loadFFTGraph(filepath):
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
     plt.show() # disable for constant visualization
     
+# live visualizer at interval cut_size
 def visualize(filepath, cut_size=0.02):
     rate, data = wavfile.read(filepath)
     channel = data.T[0]
@@ -56,6 +61,7 @@ def visualize(filepath, cut_size=0.02):
         
     plt.show()
     
+# simple amplitude plot
 def plotAmplitude(filename):
     test_rate, test_data = wavfile.read(filename)
     print("Got file length (s):", test_data.shape[0]/test_rate)
@@ -66,8 +72,8 @@ def plotAmplitude(filename):
     plt.ylabel("Amplitude")
     plt.show()
     
-# WIP
-def vectorizedEqualityRating(wav1, wav2):
+# not working great/at all
+def permutatedSimilarityRating(wav1, wav2):
     # how to vectorize?
     # see notes in official folder 10-8-20
     rate_1, data_1 = wavfile.read(wav1)
@@ -82,15 +88,34 @@ def vectorizedEqualityRating(wav1, wav2):
         sel_1 = np.divide(getCut(data_1, rate_1, j1), getCut(data_1, rate_1, j1-1))
         for j2 in range(1, j2_max):
             sel_2 = np.divide(getCut(data_2, rate_2, j2), getCut(data_2, rate_2, j2-1))
-            sigmoid_in = np.abs(np.subtract(sel_1, sel_2))
-            rating += 1/(1 + np.exp(-sigmoid_in))[0] # [0] is temporary, rating returns array (must be fixed)
+            sigmoid_in = np.abs(np.subtract(sel_1, sel_2)) # should i use activation functions?
+            rating += 1/(1 + np.exp(-sigmoid_in))[0] # [0] is temporary, better solution needed to return scalar
     
-    rating = rating/(j1_max*j2_max)
+    rating = rating/(j1_max*j2_max) # does averaging need fixing?
     print("rated", rating)
-    return np.average(rating)
+    return rating
+
+# matches difference against live timestamp (poor ubiquitous similarity rating)
+def exactSimilarityRating(wav1, wav2):
+    rate_1, data_1 = wavfile.read(wav1)
+    data_1 = data_1.T[0]
+    rate_2, data_2 = wavfile.read(wav2)
+    data_2 = data_2.T[0]
+    rating = 0
+    j1_max = int((data_1.size/rate_1)/0.02)
+    j2_max = int((data_2.size/rate_2)/0.02)
+    j1_max = min(j1_max, j2_max)
+    for j1 in range(1, j1_max-1):
+        sel_1 = np.divide(getCut(data_1, rate_1, j1), getCut(data_1, rate_1, j1-1))
+        sel_2 = np.divide(getCut(data_2, rate_2, j1), getCut(data_2, rate_2, j1-1))
+        # currently no activation function in use
+        rating += np.abs(np.subtract(sel_1, sel_2))[0] # [0] is temporary, better solution needed to return scalar
+        
+    rating = rating/(j1_max)
+    print("rated", rating) # closer to 0 is more similar
+    return rating
     
-att = "../res/allthistime.wav"
-# vectorizedEqualityRating(att, att)
+exactSimilarityRating("../res/kickdrum.wav", "../res/kickdrum.wav")
 
 plotAmplitude("../res/kickdrum.wav")
 loadFFTGraph("../res/kickdrum.wav")
