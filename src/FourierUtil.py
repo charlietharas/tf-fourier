@@ -140,9 +140,12 @@ def writeCSV(wav1, csv_name="analysis.csv"):
 # todo fix live csv writing method
 # idea use fixed scale for x axis of static visualizer
 # idea use logarithmic y axis for static visualizer
-    
-exactSimilarityRating("../res/kickdrum.wav", "../res/kickdrum.wav")
 
-plotAmplitude("../res/kickdrum.wav")
-loadFFTGraph("../res/kickdrum.wav")
-visualize("../res/kickdrum.wav", 0.05, csv_write=True)
+# for testing
+current_file = "../res/kickdrum.wav"
+    
+exactSimilarityRating(current_file, current_file)
+
+plotAmplitude(current_file)
+loadFFTGraph(current_file)
+visualize(current_file, 0.05, csv_write=True)
