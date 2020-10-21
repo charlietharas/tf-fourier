@@ -4,6 +4,7 @@ Created on Sep 12, 2019
 '''
 
 import os
+import csv
 import matplotlib.pyplot as plt
 from scipy.fftpack import fft
 from scipy.fftpack import rfft
@@ -44,11 +45,20 @@ def loadFFTGraph(filepath):
     plt.show() # disable for constant visualization
     
 # live visualizer at interval cut_size
-def visualize(filepath, cut_size=0.02):
+# note that live writing to a csv file drastically slows the visualizer, desyncs (no longer live)
+# csv writing methods are better suited for asynchronous processing
+def visualize(filepath, cut_size=0.02, csv_write=False, csv_name="visualizer_data.csv"):
     rate, data = wavfile.read(filepath)
     channel = data.T[0]
     normalize = [(i/2**8.)*2-1 for i in channel]
     print("Visualizer preprocessing complete")
+    if csv_write:
+        try:
+            os.remove(csv_name)
+        except:
+            pass
+        writer = csv.writer(open(csv_name, "w"))
+        
     for pos in range (int(len(normalize)/rate/0.02)-1):
         fft_data = rfft(getCut(data, rate, pos, cut_size))
         fft_out = int(len(fft_data))
@@ -58,6 +68,9 @@ def visualize(filepath, cut_size=0.02):
         plt.pause(cut_size)
         if pos % (1/cut_size) == 0:
             print(pos/(1/cut_size), "seconds processed.")
+        if csv_write:
+            # todo figure out what the csv should write
+            continue
         
     plt.show()
     
@@ -114,9 +127,22 @@ def exactSimilarityRating(wav1, wav2):
     rating = rating/(j1_max)
     print("rated", rating) # closer to 0 is more similar
     return rating
+
+def writeCSV(wav1, csv_name="analysis.csv"):
+    rate_1, data_1 = wavfile.read(wav1)
+    try:
+        os.remove(csv_name)
+    except:
+        print("Got no previous instance of", csv_name)
+    writer = csv.writer(open(csv_name, "w"))
+
+# todo add csv writing method
+# todo fix live csv writing method
+# idea use fixed scale for x axis of static visualizer
+# idea use logarithmic y axis for static visualizer
     
 exactSimilarityRating("../res/kickdrum.wav", "../res/kickdrum.wav")
 
 plotAmplitude("../res/kickdrum.wav")
 loadFFTGraph("../res/kickdrum.wav")
-visualize("../res/kickdrum.wav", 0.05)
+visualize("../res/kickdrum.wav", 0.05, csv_write=True)
