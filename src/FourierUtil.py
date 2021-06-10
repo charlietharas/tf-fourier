@@ -31,23 +31,24 @@ def loadFFTGraph(filepath):
     channel = data.T[0] # grab 1st channel
     bits = 8. # bitrate of track
     normalize = [(i/2**bits)*2-1 for i in channel] # normalize track
-    normalize = data.T[0] # debug skip normalization
+    normalize = data.T[0] # debug skip normalization (toremove?)
     fft_data = fft(normalize) # perform fourier transform
     fft_out = len(fft_data)/2 # half of fft (signal symmetry)
     fft_out = int(fft_out) # normalize integer function for plot
     
     a = arange(len(data))
     b = len(data)/rate # length of wav file
-    frqLabel = a/b # unknown application
+    frqLabel = a/b # unknown application: learn what this does
     
     plt.clf() # facilitates animation
+    plt.yscale("log")
     plt.plot(abs(fft_data[:(fft_out-1)]),'r')
     plt.show() # disable for constant visualization
     
 # live visualizer at interval cut_size
 # note that live writing to a csv file drastically slows the visualizer, desyncs (no longer live)
 # csv writing methods are better suited for asynchronous processing
-def visualize(filepath, cut_size=0.02, csv_write=False, csv_name="visualizer_data.csv"):
+def visualize(filepath, cut_size=0.02, csv_write=False, csv_name="visualizer_data.csv", scale="linear"):
     rate, data = wavfile.read(filepath)
     channel = data.T[0]
     normalize = [(i/2**8.)*2-1 for i in channel]
@@ -57,16 +58,18 @@ def visualize(filepath, cut_size=0.02, csv_write=False, csv_name="visualizer_dat
             os.remove(csv_name)
         except:
             pass
-        writer = csv.writer(open(csv_name, "w"))
-        
+        writer = csv.writer(open(csv_name, "w")) # unusederror: func WIP
+    
     for pos in range (int(len(normalize)/rate/0.02)-1):
         fft_data = rfft(getCut(data, rate, pos, cut_size))
         fft_out = int(len(fft_data))
         plt.clf()
+        plt.yscale(scale)
         plt.plot(abs(fft_data[:(fft_out-1)]), 'r')
         plt.show(block=False)
         plt.pause(cut_size)
         if pos % (1/cut_size) == 0:
+            # TODO TIMER SYSTEM
             print(pos/(1/cut_size), "seconds processed.")
         if csv_write:
             # todo figure out what the csv should write
@@ -86,7 +89,7 @@ def plotAmplitude(filename):
     plt.show()
     
 # not working great/at all
-def permutatedSimilarityRating(wav1, wav2):
+def permutatedSimilarityRating(wav1, wav2, slice_interval=0.02):
     # how to vectorize?
     # see notes in official folder 10-8-20
     rate_1, data_1 = wavfile.read(wav1)
@@ -94,8 +97,8 @@ def permutatedSimilarityRating(wav1, wav2):
     rate_2, data_2 = wavfile.read(wav2)
     data_2 = data_2.T[0]
     rating = 0
-    j1_max = int((data_1.size/rate_1)/0.02)
-    j2_max = int((data_2.size/rate_2)/0.02)
+    j1_max = int((data_1.size/rate_1)/slice_interval)
+    j2_max = int((data_2.size/rate_2)/slice_interval)
     print("Iterations to perform:", j1_max, j2_max) # debug
     for j1 in range(1, j1_max):
         sel_1 = np.divide(getCut(data_1, rate_1, j1), getCut(data_1, rate_1, j1-1))
@@ -135,17 +138,17 @@ def writeCSV(wav1, csv_name="analysis.csv"):
     except:
         print("Got no previous instance of", csv_name)
     writer = csv.writer(open(csv_name, "w"))
+    # unusederrors: func WIP
 
 # todo add csv writing method
 # todo fix live csv writing method
-# idea use fixed scale for x axis of static visualizer
-# idea use logarithmic y axis for static visualizer
+# todo add timer system
 
 # for testing
-current_file = "../res/kickdrum.wav"
+current_file = "../res/allthistime.wav"
     
-exactSimilarityRating(current_file, current_file)
+# exactSimilarityRating(current_file, current_file)
 
 plotAmplitude(current_file)
 loadFFTGraph(current_file)
-visualize(current_file, 0.05, csv_write=True)
+visualize(current_file, 0.05)
